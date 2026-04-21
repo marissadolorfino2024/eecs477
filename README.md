@@ -1,4 +1,4 @@
-# EECS477 programming project
+# EECS477 coding project
 
 ### Instructions:
 In the course schedule, the lectures are color-coded by topic, and some lectures are marked with a (*), meaning they would make interesting coding projects. To do the coding project:
