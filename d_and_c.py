@@ -1,5 +1,11 @@
 #!/bin/python
 
-from divide_and_conquer_utils import *
+from utils import *
 
-# divide and conquer algorithms for integer multiplication, FFT, and convolutions
+# divide and conquer FFT for integer multiplication, convolutions
+for i in range(1000):
+    for j in range(10000):
+        fft_tests(i, j)
+
+
+
