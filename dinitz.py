@@ -10,7 +10,7 @@ import time
 # g_naive2 = {0: {1: 16, 2: 13}, 1: {2: 10, 3: 12}, 2: {1: 4, 4: 14}, 3: {2: 9, 5: 20}, 4: {3: 7, 5: 4}, 5: {}}
 
 times = []
-for n in range(10, 1000, 10):
+for n in range(10, 100):
     grandom = generate_random_flow_network(n=n)
     starttime = time.perf_counter()
     dinitz_alg(grandom)

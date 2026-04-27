@@ -3,50 +3,7 @@
 import math 
 import numpy as np
 
-# util functions for divide and conquer: integer mult, fft, convolutions
-
-# fft function (forward and inverse)
-def fft(polyA: list[float], n: int, wn: float, inverse=False):
-    ''' function for fft on coefficient list of size n for polynomial A
-    polyA (list): list of coefficients of polynomial A
-    n (int): specifies the degree of the polynomial A
-    wn (float): unit nth root of unity
-    '''
-    
-    # bitwise and to ensure n is a power of 2
-    if n & (n - 1) != 0: 
-        print('the degree of polyA must be a power of 2')
-        return 'error'
-
-    polyA_n = len(polyA) # get length of poly (n)
-    if polyA_n == 1:
-        return [polyA[0]] # return a0
-    
-    A_even = [polyA[i] for i in range(polyA_n) if i % 2 == 0]
-    A_odd = [polyA[i] for i in range(polyA_n) if i % 2 != 0]
-    
-    even_evals = fft(A_even, len(A_even), wn**2)
-    odd_evals = fft(A_odd, len(A_odd), wn**2)
-
-    yk = []
-    yk_n2 = []
-    
-    # get the values of A from Aeven and Aodd
-    for i in range(int(polyA_n/2)):
-        factor = wn ** i
-        y = even_evals[i] + factor * odd_evals[i]
-        yk.append(y)
-        
-        yn2 = even_evals[i] - factor * odd_evals[i]
-        yk_n2.append(yn2)
-
-    # if inverse, divide outputs by n
-    if inverse == True:
-        ytotal = [a/n for a in yk] + [a/n for a in yk_n2]
-        return ytotal
-
-    ytotal = yk + yk_n2        
-    return ytotal 
+# integer mult w fft
 
 def pad_polys(poly: list[float]):
     n = len(poly)
@@ -101,9 +58,43 @@ def poly_evaluation(poly: list[float]):
         pow = i
         result += poly[i] * (2 ** i) 
     return result
+
+# fft function (forward and inverse)
+def fft(polyA: list[float], n: int, wn: float, inverse=False):
+    # bitwise and to ensure n is a power of 2
+    if n & (n - 1) != 0: 
+        print('the degree of polyA must be a power of 2')
+        return 'error'
+
+    polyA_n = len(polyA) # get length of poly (n)
+    if polyA_n == 1:
+        return [polyA[0]] # return a0
     
-def pattern_matching():
-    return 0
+    A_even = [polyA[i] for i in range(polyA_n) if i % 2 == 0]
+    A_odd = [polyA[i] for i in range(polyA_n) if i % 2 != 0]
+    
+    even_evals = fft(A_even, len(A_even), wn**2)
+    odd_evals = fft(A_odd, len(A_odd), wn**2)
+
+    yk = []
+    yk_n2 = []
+    
+    # get the values of A from Aeven and Aodd
+    for i in range(int(polyA_n/2)):
+        factor = wn ** i
+        y = even_evals[i] + factor * odd_evals[i]
+        yk.append(y)
+        
+        yn2 = even_evals[i] - factor * odd_evals[i]
+        yk_n2.append(yn2)
+
+    # if inverse, divide outputs by n
+    if inverse == True:
+        ytotal = [a/n for a in yk] + [a/n for a in yk_n2]
+        return ytotal
+
+    ytotal = yk + yk_n2        
+    return ytotal 
     
 def fft_tests(int1: int, int2: int):
 

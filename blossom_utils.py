@@ -26,26 +26,52 @@ def find_commonbase(matched, base, parent, v, u):
 
 # add vertices in cycle to blossom 
 def add_blossom_vertices(matched, base, blossom_vertices, parent, v, u, blossombase):
-    # get path from v to blossomebase, set new base to blossom baase
+    # Traverse from v to blossombase
     current = v
-    # traversal in one direction
     while base[current] != blossombase:
-        # add matched vertex and matched neighbor to blossom vertices
+        # Add current to blossom
         blossom_vertices.add(base[current])
-        blossom_vertices.add(base[matched[current]])
-        parent[current] = u  
-        u = matched[current]
-        current = parent[u]
+        
+        # Add the matched partner if current is matched
+        if current in matched:
+            mate = matched[current]
+            blossom_vertices.add(base[mate])
+            # Update parent for the blossom contraction
+            parent[current] = u
+            u = mate
+            # Move to the parent of the mate
+            if mate in parent:
+                current = parent[mate]
+            else:
+                break
+        else:
+            parent[current] = u
+            break
     
-    # traversal in the other
-    # get path from u to blossombase, set new base to blossom base
+    # Traverse from u to blossombase
     current = u
     while base[current] != blossombase:
+        # Add current to blossom
         blossom_vertices.add(base[current])
-        blossom_vertices.add(base[matched[current]])
-        parent[current] = v
-        v = matched[current]
-        current = parent[v]
+        
+        # Add the matched partner if current is matched
+        if current in matched:
+            mate = matched[current]
+            blossom_vertices.add(base[mate])
+            # Update parent for the blossom contraction
+            parent[current] = v
+            v = mate
+            # Move to the parent of the mate
+            if mate in parent:
+                current = parent[mate]
+            else:
+                break
+        else:
+            parent[current] = v
+            break
+    
+    # Add the blossom base
+    blossom_vertices.add(blossombase)
 
 # contract the blossom to a single vertex
 def contract_blossom(g, matched, base, parent, v, u):
@@ -177,10 +203,12 @@ def blossom_alg(g):
     return list(matched.keys())
 
 # for generating random graphs
-def generate_graph_with_odd_cycles(n_vertices: int = 10, n_odd_cycles: int = 2, cycle_length_range: Tuple[int, int] = (3, 5), extra_edge_probability: float = 0.1)
+def generate_graph_with_odd_cycles(n_vertices: int = 10, n_odd_cycles: int = 2, cycle_length_range1 = 3, cycle_length_range2 = 5, extra_edge_probability: float = 0.1):
     graph = {i: [] for i in range(n_vertices)}
     available_vertices = list(range(n_vertices))
     random.shuffle(available_vertices)
+    
+    cycle_length_range = (cycle_length_range1, cycle_length_range2)
     
     # insert odd cycles
     for _ in range(n_odd_cycles):
