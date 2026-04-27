@@ -53,6 +53,8 @@ To test, random graphs were generated with at most 100 capacity.
 
 The performance of the naive and optimized versions are shown below, and compared to the scipy max flow implementation for graphs with 10 to 1000 vertices (step = 10), with random weights and random number of edges.
 
+The scipy documentation can be found [here](https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csgraph.maximum_flow.html).
+
 ![dinitz naive implementation](dinitz_naive.png)
 ![dinitz optimized and scipy implementations](dinitz_opt_scipy.png)
 
