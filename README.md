@@ -49,7 +49,7 @@ Below are the optimization strategies for Dinitz' algorithm:
 
 [Introduction to level graphs]([here](https://en.wikipedia.org/wiki/Dinic%27s_algorithm).)
 
-To test, random graph generation was performed by:
+To test, random graphs were generated with at most 100 capacity.
 
 The performance of the naive and optimized versions are shown below, and compared to the scipy max flow implementation for graphs with 10 to 1000 vertices (step = 10), with random weights and random number of edges.
 
@@ -58,3 +58,13 @@ The performance of the naive and optimized versions are shown below, and compare
 
 ### Edmond's blossom algorithm for maximum matchings
 - the naive implementation can be found here: blossom_utils.py
+- There is potentially (probably) a bug in my current implementation. 
+    
+    - Only runs on graphs of 10-13 vertices
+    - For > 13 vertices, no errors, but I think there is an infinite loop somewhere
+
+To test performance, random graphs were generated with at least 2 odd length cycles.
+
+The performance of the naive implementation is shown below, but only on graphs with 10-13 vertices.
+
+![blossom performance](blossom_naive.png)
